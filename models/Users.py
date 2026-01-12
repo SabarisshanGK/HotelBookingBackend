@@ -12,7 +12,7 @@ class User(Base):
     email = Column(String , nullable= False , unique=True , index=True)
     password = Column(String , nullable=False)
     profilePic = Column(String)
-    phone = Column(Integer,nullable=False)
+    phone = Column(String,nullable=False)
     country = Column(String, nullable=False)
     role = Column(Enum(UserRole) , nullable=False, default=UserRole.CUSTOMER)
     is_verified = Column(Boolean , nullable= False , default=False)
