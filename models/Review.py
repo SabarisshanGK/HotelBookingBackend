@@ -19,7 +19,7 @@ class Review(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "star_rating >= 1 AND star_rating <= 5",
-            name="check_star_rating_range"
+            "rating >= 1 AND rating <= 5",
+            name="check_rating_range"
         ),
     )

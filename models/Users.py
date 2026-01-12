@@ -17,7 +17,7 @@ class User(Base):
     role = Column(Enum(UserRole) , nullable=False, default=UserRole.CUSTOMER)
     is_verified = Column(Boolean , nullable= False , default=False)
     otp_hash = Column(String, nullable=True)
-    otp_expiry = Column(DateTime, nullable=True)
+    otp_expiry = Column(DateTime(timezone=True), nullable=True)
     createdAt = Column(DateTime(timezone=True) , server_default=func.now(), nullable=False)
     updatedAt = Column(DateTime(timezone=True),server_default=func.now(), onupdate=func.now(), nullable=False)
 

@@ -12,7 +12,7 @@ class AuthBase(BaseModel):
     phone: str 
     country: str
     role: Optional[UserRole] = UserRole.CUSTOMER
-    is_verified: Optional[bool]
+    is_verified: Optional[bool] = False
     otp_hash: Optional[str] = None
     otp_expiry: Optional[datetime] = None
 
@@ -35,6 +35,7 @@ class LoginResponse(BaseModel):
     token_type: str
 
 class UserResponse(BaseModel):
+    id: int
     name: str
     email: str
     profilePic: str
@@ -44,5 +45,20 @@ class UserResponse(BaseModel):
     is_verified: bool
     createdAt: datetime
     updatedAt: datetime
+    class Config:
+        from_attributes = True 
+
+class RegisterUserResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+    profilePic: str
+    phone: str
+    country: str
+    role: UserRole
+    is_verified: bool
+    createdAt: datetime
+    updatedAt: datetime
+    message: str
     class Config:
         from_attributes = True 
