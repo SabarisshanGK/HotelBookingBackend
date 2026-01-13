@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import Request
 from typing import Optional
-from datetime import datetime
+from datetime import datetime , timezone
 
 from models.AuditLogs import AuditLog
 
@@ -44,7 +44,7 @@ def log_audit(
             new_value=new_value,
             ip_address=ip_address,
             user_agent=user_agent,
-            created_at=datetime.utcnow()
+            created_at=datetime.now(timezone.utc)
         )
 
         db.add(audit)

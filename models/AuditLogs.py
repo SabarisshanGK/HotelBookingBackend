@@ -19,4 +19,4 @@ class AuditLogs(Base):
     ip_address = Column(String)
     user_agent = Column(String)
 
-    created_at = Column(DateTime, default=func.now())
+    created_at = Column(DateTime(timezone=True), default=func.now())

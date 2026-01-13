@@ -34,6 +34,11 @@ class LoginResponse(BaseModel):
     token: str
     token_type: str
 
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+    new_password: str
+    confirm_new_password: str
+
 class UserResponse(BaseModel):
     id: int
     name: str
@@ -52,7 +57,7 @@ class RegisterUserResponse(BaseModel):
     id: int
     name: str
     email: str
-    profilePic: str
+    profilePic: str | None
     phone: str
     country: str
     role: UserRole
