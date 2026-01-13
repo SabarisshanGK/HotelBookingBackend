@@ -1,7 +1,7 @@
 # Imports
 from fastapi import Depends , APIRouter , BackgroundTasks
 from database import get_db
-from utils.jwt_util import create_jwt_access_token
+from utils.jwt_util import create_jwt_access_token  , verify_token
 from services.AuthService import AuthService
 from schemas.AuthSchema import AuthLoginRequest, AuthUserRegisterRequest , RegisterUserResponse , UserResponse , LoginResponse , VerifyEmail , ResendOTP , ForgotPasswordRequest
 from sqlalchemy.orm import Session
@@ -43,3 +43,9 @@ def login_user( loginRequest: AuthLoginRequest , db: Session = Depends(get_db)):
 def reset_password(resetPassword: ForgotPasswordRequest, db: Session = Depends(get_db)):
     message = AuthService.forgot_password(payload=resetPassword , db=db)
     return {"message": message}
+
+# Get current user
+# Method: GET
+@router.get("/me", response_model=UserResponse)
+def get_details_of_me(user = Depends(verify_token) , db: Session = Depends(get_db)):
+    return AuthService.get_me(user=user , db=db)

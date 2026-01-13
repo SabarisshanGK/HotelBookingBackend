@@ -1,5 +1,5 @@
 # Imports
-from schemas.AuthSchema import AuthUserRegisterRequest , VerifyEmail , ResendOTP , LoginResponse , AuthLoginRequest , ForgotPasswordRequest
+from schemas.AuthSchema import AuthUserRegisterRequest , VerifyEmail , ResendOTP , LoginResponse , AuthLoginRequest , ForgotPasswordRequest , UserResponse
 from sqlalchemy.orm import Session
 from models.Users import User
 from sqlalchemy.exc import IntegrityError
@@ -165,4 +165,14 @@ class AuthService:
         db.commit()
 
         return "Password reset successfully"
+    
+    @staticmethod
+    def get_me(user, db : Session) -> UserResponse:
+        current_user = db.query(User).filter(User.email == user["user_email"]).first()
+        if not current_user:
+            raise HTTPException(
+                status_code= status.HTTP_404_NOT_FOUND,
+                detail= "User not found"
+            )
+        return current_user
 
