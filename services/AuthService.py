@@ -56,7 +56,7 @@ class AuthService:
         backgroundtasks.add_task(
             send_email,
             to_email = new_user.email,
-            subject = "Please Verify your account✌🏻",
+            subject = "Verify your Namma account",
             body= email_body
         )
 

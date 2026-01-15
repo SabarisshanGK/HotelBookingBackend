@@ -15,9 +15,10 @@ SMTP_FROM = os.getenv("SMTP_FROM")
 
 def send_email(to_email: str , subject: str , body: str):
     msg = MIMEMultipart()
-    msg["From"] = SMTP_FROM
+    msg["From"] = f"Namma hotel booking service <{SMTP_FROM}>"
     msg["To"] = to_email
     msg["subject"] = subject
+    msg["X-Mailer"] = "Namma hotel booking Mail Service"
 
     msg.attach(MIMEText(body,"html"))
 

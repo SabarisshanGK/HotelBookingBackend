@@ -43,7 +43,7 @@ class UserResponse(BaseModel):
     id: int
     name: str
     email: str
-    profilePic: str
+    profilePic: Optional[str] = None
     phone: str
     country: str
     role: UserRole
