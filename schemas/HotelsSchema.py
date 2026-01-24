@@ -47,3 +47,15 @@ class HotelCreateResponse(BaseModel):
     class Config:
         from_attributes = True 
 
+class HotelsResponse(BaseModel):
+    id: int
+    name: str
+    description: str
+    city: str
+    status: HotelStatus 
+    star_rating: int 
+    check_in_time: time
+    check_out_time: time
+    address_id: int
+    class Config:
+        from_attributes = True 

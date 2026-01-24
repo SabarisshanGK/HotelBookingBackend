@@ -1,12 +1,14 @@
 # Imports
-from fastapi import APIRouter , Depends , HTTPException , status , UploadFile , File , Form
+from fastapi import APIRouter , Depends , HTTPException , status , UploadFile , File , Form , Query
 from database import get_db
 from utils.jwt_util import verify_token
 from services.HotelsService import HotelService
-from schemas.HotelsSchema import HotelCreateRequest , HotelCreateResponse
+from schemas.HotelsSchema import HotelCreateRequest , HotelCreateResponse , HotelsResponse
 from sqlalchemy.orm import Session
 from dependencies.get_current_user import get_current_user_from_jwt
 from datetime import time
+from typing import Optional
+from enums.HotelStatusEnum import HotelStatus
 
 
 router = APIRouter(prefix="/admin/hotel")
@@ -56,3 +58,15 @@ async def create_admin_hotel(
         is_primary=is_primary,
     )
     return await HotelService.create_hotel(user=current_user, payload=hotel_payload , image=image , db=db )
+
+# Fetching hotels by their status
+# Method: GET
+@router.get('/hotels', response_model=list[HotelsResponse], description="An endpoint to fetch hotels by status")
+def get_hotels(status: Optional[HotelStatus] = Query(None), user = Depends(verify_token) , db: Session = Depends(get_db)):
+    current_user = get_current_user_from_jwt(user=user,db=db)
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    return HotelService.get_hotels(status=status , user= current_user , db=db)

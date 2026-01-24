@@ -100,3 +100,29 @@ class HotelService:
 
         return result
 
+    @staticmethod
+    def get_hotels(status: HotelStatus, user: User , db: Session):
+        if not user:
+            raise HTTPException(
+                status_code= status.HTTP_404_NOT_FOUND,
+                detail= "User not found"
+            )
+        if user.role != UserRole.ADMIN:
+            raise HTTPException(
+                status_code= status.HTTP_405_METHOD_NOT_ALLOWED,
+                detail= "Only admin can get hotels"
+            )
+        hotels = db.query(Hotel)
+        if status  is not None:
+            hotels = hotels.filter(Hotel.status == status)
+        return hotels.all()
+        
+
+
+    @staticmethod
+    def approve_hotel(id: int, user: User , db: Session) -> str:
+        if not user:
+            raise HTTPException(
+                status_code= status.HTTP_404_NOT_FOUND,
+                detail= "User not found"
+            )
